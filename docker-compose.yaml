@@ -1,0 +1,14 @@
+name: edol-t
+
+services:
+  edoltest:
+    build:
+      dockerfile: Dockerfile
+    container_name: edol-test
+    environment:
+      TZ: Europe/Kyiv
+    env_file:
+      - ../.env_edol_test
+    volumes:
+      - ../logs:/app/logs
+    restart: unless-stopped
