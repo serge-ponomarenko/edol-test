@@ -1,0 +1,11 @@
+logging:
+  file.name: ./logs/edol_test_application.log
+
+bambu:
+  client-id: edol-test
+  host: ${BAMBU_HOST}
+  port: ${BAMBU_PORT}
+  serial: ${BAMBU_SERIAL}
+  access-code: ${BAMBU_ACCESS_CODE}
+  connection-timeout: 5  # seconds
+
