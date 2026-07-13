@@ -11,4 +11,5 @@ services:
       - ../.env_edol_test
     volumes:
       - ../logs:/app/logs
+      - ../snapshots:/app/snapshots
     restart: unless-stopped
