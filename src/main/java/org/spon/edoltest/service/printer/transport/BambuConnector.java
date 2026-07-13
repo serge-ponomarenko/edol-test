@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BambuConnector {
 
-    private static final UUID PRINTER_ID = UUID.fromString("PUT-YOUR-PRINTER-ID-HERE");
+    private static final UUID PRINTER_ID = UUID.randomUUID();
 
     private static final Path SNAPSHOT_DIR = Path.of("snapshots");
 
