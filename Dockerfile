@@ -4,10 +4,10 @@ WORKDIR /app
 
 # preload deps
 RUN --mount=type=cache,target=/root/.m2 \
-    mvn -pl edol-test -am dependency:go-offline -B
+    mvn dependency:go-offline -B
 
 RUN --mount=type=cache,target=/root/.m2 \
-    mvn -pl edol-test -am clean package -DskipTests
+    mvn clean package -DskipTests
 
 # -----------------------
 # Runtime stage
