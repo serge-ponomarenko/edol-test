@@ -88,7 +88,7 @@ public class BambuMqttConnection implements MqttCallback {
         } catch (IOException e) {
             log.error("Error", e);
         }
-        log.info(">>> {}", root);
+        log.info(">>> {}", root.toString().substring(0, 50));
     }
 
     @Override

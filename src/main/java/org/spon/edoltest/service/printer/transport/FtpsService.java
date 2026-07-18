@@ -15,13 +15,14 @@ import java.io.*;
 import java.text.Normalizer;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @Setter
 public class FtpsService {
+
+    public static final String MODEL_DIRECTORY = "";
 
     @Value("${bambu.host}")
     private String bambuHost;
@@ -65,7 +66,7 @@ public class FtpsService {
                                 attempt
                         );
 
-                downloadModel(ftps, requestedFile, localFile, "");
+                downloadModel(ftps, requestedFile, localFile, MODEL_DIRECTORY);
 
                 log.info(
                                 "Model downloaded"
