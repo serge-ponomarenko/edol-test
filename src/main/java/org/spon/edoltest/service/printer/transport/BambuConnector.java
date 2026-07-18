@@ -27,11 +27,13 @@ public class BambuConnector {
 
     private final BambuMqttConnection bambuMqttConnection;
     private final CameraProvider cameraProvider;
+    private final FtpsService ftpsService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void onAppReady() {
         bambuMqttConnection.connect();
-
+        String filename = "AMS_Purge_Calibration_V2.gcode.3mf";
+        ftpsService.download(filename, "snapshots/" + filename);
         try {
             Files.createDirectories(SNAPSHOT_DIR);
         } catch (IOException e) {
@@ -39,7 +41,7 @@ public class BambuConnector {
         }
     }
 
-    @Scheduled(fixedDelay = 15000)
+    @Scheduled(fixedDelay = 60000)
     public void captureSnapshot() {
         try {
             byte[] jpeg =
