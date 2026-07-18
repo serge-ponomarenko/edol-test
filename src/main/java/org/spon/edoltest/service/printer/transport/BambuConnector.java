@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -46,7 +47,8 @@ public class BambuConnector {
                 "bblp",
                 accessCode
         );
-        curlFtpsClient.listFiles(ftpsConnection);
+        List<String> listFiles = curlFtpsClient.listFiles(ftpsConnection);
+        log.info("Files: {}", listFiles);
         curlFtpsClient.download(ftpsConnection, filename, "snapshots/" + filename);
         try {
             Files.createDirectories(SNAPSHOT_DIR);
@@ -56,23 +58,23 @@ public class BambuConnector {
     }
 
     //@Scheduled(fixedDelay = 60000)
-    public void captureSnapshot() {
-        try {
-            byte[] jpeg =
-                    cameraProvider.capture(PRINTER_ID);
-
-            Path file =
-                    SNAPSHOT_DIR.resolve(
-                            FILE_FORMAT.format(LocalDateTime.now()) + ".jpg"
-                    );
-
-            Files.write(file, jpeg);
-
-            log.info("Snapshot saved: {}", file.toAbsolutePath());
-
-        } catch (Exception e) {
-            log.error("Snapshot capture failed", e);
-        }
-    }
+//    public void captureSnapshot() {
+//        try {
+//            byte[] jpeg =
+//                    cameraProvider.capture(PRINTER_ID);
+//
+//            Path file =
+//                    SNAPSHOT_DIR.resolve(
+//                            FILE_FORMAT.format(LocalDateTime.now()) + ".jpg"
+//                    );
+//
+//            Files.write(file, jpeg);
+//
+//            log.info("Snapshot saved: {}", file.toAbsolutePath());
+//
+//        } catch (Exception e) {
+//            log.error("Snapshot capture failed", e);
+//        }
+//    }
 
 }
