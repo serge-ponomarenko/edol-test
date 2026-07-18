@@ -2,9 +2,11 @@ package org.spon.edoltest.service.printer.transport;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.spon.edoltest.service.printer.transport.ftps.CurlFtpsClient;
+import org.spon.edoltest.service.printer.transport.ftps.FtpsConnection;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,13 +29,25 @@ public class BambuConnector {
 
     private final BambuMqttConnection bambuMqttConnection;
     private final CameraProvider cameraProvider;
-    private final FtpsService ftpsService;
+    private final CurlFtpsClient curlFtpsClient;
+
+    @Value("${bambu.host}")
+    private String bambuHost;
+    @Value("${bambu.access-code}")
+    private String accessCode;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void onAppReady() {
+    public void onAppReady() throws IOException, InterruptedException {
         bambuMqttConnection.connect();
         String filename = "AMS_Purge_Calibration_V2.gcode.3mf";
-        ftpsService.download(filename, "snapshots/" + filename);
+        FtpsConnection ftpsConnection = new FtpsConnection(
+                bambuHost,
+                990,
+                "bblp",
+                accessCode
+        );
+        curlFtpsClient.listFiles(ftpsConnection);
+        curlFtpsClient.download(ftpsConnection, filename, "snapshots/" + filename);
         try {
             Files.createDirectories(SNAPSHOT_DIR);
         } catch (IOException e) {
@@ -41,7 +55,7 @@ public class BambuConnector {
         }
     }
 
-    @Scheduled(fixedDelay = 60000)
+    //@Scheduled(fixedDelay = 60000)
     public void captureSnapshot() {
         try {
             byte[] jpeg =
