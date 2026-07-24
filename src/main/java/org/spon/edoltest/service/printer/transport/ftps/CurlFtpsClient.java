@@ -4,7 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -48,12 +52,21 @@ public class CurlFtpsClient {
                 "--ssl-reqd",
                 "--user", connection.username() + ":" + connection.password(),
                 "--output", localFile,
-                "ftps://" + connection.host() + ":" + connection.port() + "/" + remoteFile
+                buildUrl(connection, remoteFile)
         ));
 
         if (result.exitCode() != 0) {
             throw new IOException(result.stderr());
         }
+    }
+
+    private String buildUrl(FtpsConnection connection, String remoteFile) {
+        String path = Arrays.stream(remoteFile.split("/"))
+                .map(s -> URLEncoder.encode(s, StandardCharsets.UTF_8)
+                        .replace("+", "%20"))
+                .collect(Collectors.joining("/"));
+
+        return "ftps://" + connection.host() + ":" + connection.port() + "/" + path;
     }
 
 }

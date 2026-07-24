@@ -9,3 +9,5 @@ bambu:
   access-code: ${BAMBU_ACCESS_CODE}
   connection-timeout: 5  # seconds
 
+server:
+  port: 8899

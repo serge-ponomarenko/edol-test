@@ -40,21 +40,22 @@ public class BambuConnector {
     @EventListener(ApplicationReadyEvent.class)
     public void onAppReady() throws IOException, InterruptedException {
         bambuMqttConnection.connect();
-        String filename = "AMS_Purge_Calibration_V2.gcode.3mf";
-        FtpsConnection ftpsConnection = new FtpsConnection(
-                bambuHost,
-                990,
-                "bblp",
-                accessCode
-        );
-        List<String> listFiles = curlFtpsClient.listFiles(ftpsConnection);
-        log.info("Files: {}", listFiles);
-        curlFtpsClient.download(ftpsConnection, filename, "snapshots/" + filename);
-        try {
-            Files.createDirectories(SNAPSHOT_DIR);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+//        String filename = "Куб + Циліндр + Прямокутник з закругленими + Прямокутн....gcode.3mf";
+//        String modelDir = "";
+//        FtpsConnection ftpsConnection = new FtpsConnection(
+//                bambuHost,
+//                990,
+//                "bblp",
+//                accessCode
+//        );
+//        System.out.println(curlFtpsClient.listFiles(ftpsConnection));
+//        curlFtpsClient.download(ftpsConnection, modelDir + "/" + filename, "snapshots/" + filename);
+//        try {
+//            Files.createDirectories(SNAPSHOT_DIR);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     //@Scheduled(fixedDelay = 60000)

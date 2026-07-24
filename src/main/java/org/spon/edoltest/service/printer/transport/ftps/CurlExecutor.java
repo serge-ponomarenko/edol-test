@@ -13,6 +13,8 @@ import java.util.List;
 public class CurlExecutor {
 
     public CurlResult execute(List<String> command) throws IOException, InterruptedException {
+        log.info("Executing: {}", String.join(" ", command));
+
         Process process = new ProcessBuilder(command)
                 .redirectErrorStream(false)
                 .start();
