@@ -9,6 +9,8 @@ services:
       TZ: Europe/Kyiv
     env_file:
       - ../.env_edol_test
+    ports:
+      - "8899:8899"
     volumes:
       - ../logs:/app/logs
       - ../snapshots:/app/snapshots
